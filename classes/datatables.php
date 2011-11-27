@@ -2,6 +2,10 @@
 /**
  * DataTables
  * 
+ * 1. "REST_Paginate" to handle query string paginate operations on Paginate. The equalivant to 
+ * DataTable within a REST API.
+ * 2. Driver for Paginate
+ * 
  * @package		DataTables
  * @author		Micheal Morgan <micheal@morgan.ly>
  * @copyright	(c) 2011 Micheal Morgan
@@ -29,7 +33,7 @@ class DataTables
 	 * @param	mixed	NULL|Request
 	 * @return	bool
 	 */
-	public static function request(Request $request = NULL)
+	public static function is_request(Request $request = NULL)
 	{
 		$request = ($request) ? $request : Request::current();
 		
@@ -67,6 +71,13 @@ class DataTables
 	 * @var		NULL|string
 	 */
 	protected $_view;	
+	
+	/**
+	 * Request
+	 * 
+	 * @access	protected
+	 * @var		NULL|Request
+	 */
 	
 	/**
 	 * Initiate
@@ -115,6 +126,28 @@ class DataTables
 	}	
 	
 	/**
+	 * Set or get Request
+	 * 
+	 * @access	public
+	 * @param	mixed	NULL|Request
+	 * @return	mixed	$this|Request|NULL
+	 */
+	public function request(Request $request = NULL)
+	{
+		if ($request === NULL)
+		{
+			if ($this->_request instanceof Request)
+				return $this->_request;
+				
+			return Request::current();
+		}
+			
+		$this->_request = $request;
+		
+		return $this;
+	}
+	
+	/**
 	 * Add row to output
 	 * 
 	 * @access	public
@@ -146,13 +179,16 @@ class DataTables
 	 * @param	mixed	NULL|Request
 	 * @return	$this
 	 */
-	public function execute(Request $request = NULL)
+	public function execute()
 	{
 		// Prevent multiple execution
 		if ($this->_result === NULL)
 		{
-			$request = ($request) ? $request : Request::current();
-			
+			$request = $this->request();
+
+			if ( ! $request instanceof Request)
+				throw new Kohana_Exception('DataTables expecting valid Request. If within a sub-request, have controller pass `$this->request`.');
+				
 			$columns = $this->_paginate->columns();
 			
 			if ($request->query('iSortCol_0') !== NULL)
@@ -190,6 +226,8 @@ class DataTables
 			// Count should always match total unless search is being applied
 			$this->_count = ($request->query('sSearch')) ? $this->_paginate->count() : $this->_count_total;
 		}
+		
+		return $this;
 	}
 	
 	/**
@@ -211,8 +249,6 @@ class DataTables
 	 */
 	public function render()
 	{
-		$this->execute();
-		
 		if ($this->_view)
 		{
 			View::factory($this->_view, array('datatables' => $this))->render();
@@ -220,7 +256,7 @@ class DataTables
 		
 		return json_encode(array
 		(
-			'sEcho' 				=> intval(Request::current()->query('sEcho')),
+			'sEcho' 				=> intval($this->request()->query('sEcho')),
 			'iTotalRecords' 		=> $this->_count_total,
 			'iTotalDisplayRecords' 	=> $this->_count,
 			'aaData' 				=> $this->_rows
