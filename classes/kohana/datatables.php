@@ -226,7 +226,7 @@ class Kohana_DataTables
 		$this->_count_total = $this->_paginate->count_total();
 		
 		// Count should always match total unless search is being applied
-		$this->_count = ($request->query('sSearch')) ? $this->_paginate->count() : $this->_count_total;
+		$this->_count = ($request->query('sSearch')) ? $this->_paginate->count_search_total() : $this->_count_total;
 	
 		return $this;
 	}
