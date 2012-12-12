@@ -1,7 +1,7 @@
 # Setup
 
-[Paginate](https://github.com/michealmorgan/kohana-paginate) is taking care of interacting with 
-whichever backend you choose (Database, ORM, Dispatch, custom, etc). Once you have a Paginate 
+[Paginate](https://github.com/morgan/kohana-paginate) is taking care of interacting with 
+whichever backend you choose (Database, ORM, ORM-REST, Dispatch, custom, etc). Once you have a Paginate 
 object, simply:
 
 	$paginate = Paginate::factory($orm);
