@@ -1,2 +1,2 @@
-## [Paginate]()
- - [Getting Started](start)
+## [DataTables]()
+ - [The Basics](basics)
