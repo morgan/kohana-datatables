@@ -1,3 +1,8 @@
+# 0.2.0 - 12/11/2012
+
+- Upgraded to support Kohana 3.3
+- Renamed class files and directories to support PSR-0
+
 # 0.1.1 - 09/01/2012
 
 - Resolved issue #4 (https://github.com/morgan/kohana-datatables/issues/4) revolving around 
