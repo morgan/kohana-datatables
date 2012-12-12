@@ -2,13 +2,13 @@
 
 ## Dependency
 
-- [Paginate](https://github.com/michealmorgan/kohana-paginate)
+- [Paginate](https://github.com/morgan/kohana-paginate)
 
 ## Learning & References
 
 - User Guide
 - API Browser
 
-## Version 0.1.1
+## Version 0.2.0
 
-This is release version 0.1.1 of [DataTables](https://github.com/michealmorgan/kohana-datatables).
+This is release version 0.2.0 of [DataTables](https://github.com/morgan/kohana-datatables).
