@@ -8,7 +8,7 @@
  * @license		MIT
  */
 class Kohana_DataTables
-{	
+{
 	/**
 	 * Factory pattern
 	 * 
@@ -58,7 +58,7 @@ class Kohana_DataTables
 	 * @access	protected
 	 * @var		array
 	 */
-	protected $_rows = array();		
+	protected $_rows = array();
 	
 	/**
 	 * View
@@ -66,7 +66,7 @@ class Kohana_DataTables
 	 * @access	protected
 	 * @var		NULL|string
 	 */
-	protected $_view;	
+	protected $_view;
 	
 	/**
 	 * Request
@@ -107,7 +107,7 @@ class Kohana_DataTables
 	{
 		if ($paginate === NULL)
 			return $this->_paginate;
-			
+		
 		$this->_paginate = $paginate;
 		
 		return $this;
@@ -128,7 +128,7 @@ class Kohana_DataTables
 		$this->_view = $path;
 		
 		return $this;
-	}	
+	}
 	
 	/**
 	 * Set or get Request
@@ -143,10 +143,10 @@ class Kohana_DataTables
 		{
 			if ($this->_request instanceof Request)
 				return $this->_request;
-				
+		
 			return Request::current();
 		}
-			
+		
 		$this->_request = $request;
 		
 		return $this;
@@ -164,7 +164,7 @@ class Kohana_DataTables
 		$this->_rows[] = $row;
 		
 		return $this;
-	}	
+	}
 	
 	/**
 	 * Get result
@@ -175,7 +175,7 @@ class Kohana_DataTables
 	public function result()
 	{
 		return $this->_result;
-	}		
+	}
 	
 	/**
 	 * Execute
@@ -189,8 +189,9 @@ class Kohana_DataTables
 		$request = $this->request();
 
 		if ( ! $request instanceof Request)
-			throw new Kohana_Exception('DataTables expecting valid Request. If within a sub-request, have controller pass `$this->request`.');
-			
+			throw new Kohana_Exception('DataTables expecting valid Request. If within a 
+				sub-request, have controller pass `$this->request`.');
+		
 		$columns = $this->_paginate->columns();
 		
 		if ($request->query('iSortCol_0') !== NULL)
@@ -205,7 +206,7 @@ class Kohana_DataTables
 				{
 					$this->_paginate->sort($column, constant($sort));
 				}
-			}	
+			}
 		}
 		
 		if ($request->query('iDisplayStart') !== NULL && $request->query('iDisplayLength') != '-1')
@@ -221,13 +222,17 @@ class Kohana_DataTables
 			$this->_paginate->search($request->query('sSearch'));
 		}
 		
-		$this->_result = $this->_paginate->execute()->result();
+		$this->_result = $this->_paginate
+			->execute()
+			->result();
 
 		$this->_count_total = $this->_paginate->count_total();
 		
 		// Count should always match total unless search is being applied
-		$this->_count = ($request->query('sSearch')) ? $this->_paginate->count_search_total() : $this->_count_total;
-	
+		$this->_count = ($request->query('sSearch')) 
+			? $this->_paginate->count_search_total() 
+			: $this->_count_total;
+
 		return $this;
 	}
 	
@@ -240,7 +245,7 @@ class Kohana_DataTables
 	public function __toString()
 	{
 		return $this->render();
-	}	
+	}
 	
 	/**
 	 * Render
