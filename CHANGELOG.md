@@ -1,3 +1,7 @@
+# 0.2.1 - 01/03/2013
+
+- Modified render() to accept an optional Response object.
+
 # 0.2.0 - 12/11/2012
 
 - Upgraded to support Kohana 3.3

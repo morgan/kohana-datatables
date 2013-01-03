@@ -9,6 +9,6 @@
 - User Guide
 - API Browser
 
-## Version 0.2.0
+## Version 0.2.1
 
-This is release version 0.2.0 of [DataTables](https://github.com/morgan/kohana-datatables).
+This is release version 0.2.1 of [DataTables](https://github.com/morgan/kohana-datatables).
