@@ -31,8 +31,8 @@ object, simply:
 					$user->name
 				));
 			}			
-			
-			$this->response->body($datatables->render());
+
+			$datatables->render($this->response);
 		}
 		else
 			throw new HTTP_Exception_500();	
@@ -47,11 +47,11 @@ object, simply:
 	$paginate = Paginate::factory($dispatch)
 		->columns(array('id', 'name'));
 	
-	$datatables = DataTables::factory($paginate)
+	DataTables::factory($paginate)
 		->request($this->request)
 		->view('user/browse')
 		->execute()
-		->render();
+		->render($this->response);
 				
 ## View "user/browse"
 

@@ -249,11 +249,12 @@ class Kohana_DataTables
 	
 	/**
 	 * Render
-	 * 
+	 *
 	 * @access	public
+     * @param	Response
 	 * @return	string
 	 */
-	public function render()
+	public function render(Response $response = NULL)
 	{
 		if ($this->_render === NULL)
 		{
@@ -261,9 +262,7 @@ class Kohana_DataTables
 			{
 				View::factory($this->_view, array('datatables' => $this))->render();
 			}
-			
-			$this->request()->response()->headers('content-type', 'application/json');
-			
+
 			$this->_render = json_encode(array
 			(
 				'sEcho' 				=> intval($this->request()->query('sEcho')),
@@ -272,6 +271,12 @@ class Kohana_DataTables
 				'aaData' 				=> $this->_rows
 			));
 		}
+
+        if ($response instanceof Response)
+        {
+            $response->headers('content-type', 'application/json');
+            $response->body($this->_render);
+        }
 		
 		return $this->_render;
 	}
