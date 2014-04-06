@@ -194,13 +194,14 @@ class Kohana_DataTables
 		
 		$columns = $this->_paginate->columns();
 		
-		if ($request->query('iSortCol_0') !== NULL)
+		if ($request->query('order') !== NULL)
 		{
-			for ($i = 0; $i < intval($request->query('iSortingCols')); $i++)
+                    $order = $request->query('order');
+			for ($i = 0; $i < sizeof($order); $i++)
 			{
-				$column = $columns[intval($request->query('iSortCol_' . $i))];
+				$column = $columns[$order[$i]['column']];
 				
-				$sort = 'Paginate::SORT_' . strtoupper($request->query('sSortDir_' . $i));
+				$sort = 'Paginate::SORT_' . strtoupper($order[$i]['dir']);
 				
 				if (defined($sort))
 				{
@@ -209,17 +210,17 @@ class Kohana_DataTables
 			}
 		}
 		
-		if ($request->query('iDisplayStart') !== NULL && $request->query('iDisplayLength') != '-1')
+		if ($request->query('start') !== NULL && $request->query('length') != '-1')
 		{
-			$start = $request->query('iDisplayStart');
-			$length = $request->query('iDisplayLength');
+			$start = $request->query('start');
+			$length = $request->query('length');
 			
 			$this->_paginate->limit($start, $length);
 		}
 
-		if ($request->query('sSearch'))
+		if ($request->query('search'))
 		{
-			$this->_paginate->search($request->query('sSearch'));
+			$this->_paginate->search($request->query('search.value'));
 		}
 		
 		$this->_result = $this->_paginate
