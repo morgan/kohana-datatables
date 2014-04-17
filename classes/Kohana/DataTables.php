@@ -190,14 +190,18 @@ class Kohana_DataTables {
             for ($i = 0; $i < sizeof($order); $i++)
             {
                 $found = false;
+                //First we search in the paginate columns, but the result might be wrong,
+                //since they could be more columns to the datatable than the ORM object
+                //so we'll have a look at all
                 if(isset($columns[$order[$i]['column']])) {
                     $found = true;
                     $column = $columns[$order[$i]['column']];
                 }
                 
-                if($all_columns == null and isset($all_columns[$order[$i]['column']]['key'])) {
+                if($all_columns != null and isset($all_columns[$order[$i]['column']]['key'])) {
                     $found = true;
                     $column = $all_columns[$order[$i]['column']]['key'];
+                    
                 }
                 
                 if($found and ($all_columns == null or in_array($column,$columns)))
