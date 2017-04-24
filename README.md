@@ -4,6 +4,8 @@
 
 # DataTables Module
 
+- compatible with Datatables 1.10 ( https://next.datatables.net )
+
 ## Dependency
 
 - [Paginate](https://github.com/morgan/kohana-paginate)
